@@ -1,4 +1,28 @@
-import Route from '@ember/routing/route';
+import Ember from 'ember';
 
-export default Route.extend({
-});
+
+export default Ember.Route.extend({
+  model() {
+    return Ember.RSVP.hash({
+      sighting: this.store.createRecord('sighting'),
+      cryptids: this.store.findAll('cryptid'),
+      witnesses: this.store.findAll('witness')
+    });
+  },
+  actions: {
+    willTransition() {
+      var sighting = this.get('controller.model.sighting');
+      if(sighting.get('hasDirtyAttributes')){
+        sighting.deleteRecord();
+      }
+    }
+  },
+
+        didMakeWitnessSelection(value) {
+  this.get('sighting').set('witnesses', value);
+},
+   didMakeCryptidSelection(value) {
+  this.get('sighting').set('cryptid', value);
+}
+})
+
