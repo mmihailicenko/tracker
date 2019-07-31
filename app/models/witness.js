@@ -1,4 +1,5 @@
 import DS from 'ember-data';
+import { computed } from '@ember/object';
 const { Model } = DS;
 
 export default Model.extend({
@@ -6,7 +7,7 @@ export default Model.extend({
   lName: DS.attr('string'),
   email: DS.attr('string'),
   sightings: DS.hasMany('sighting'),
-  fullName: Ember.computed('fName', 'lName', function(){
+  fullName: computed('fName', 'lName', function(){
     return this.get('fName') + ' ' + this.get('lName');
   })
 
